@@ -127,7 +127,7 @@ function CrossSell({ currentSlug, categorySlug }: { currentSlug: string; categor
         <h2 style={{ ...condensed, fontSize: "clamp(1.5rem,3vw,2rem)", marginBottom: "2rem", color: BLACK }}>
           Complète ta routine
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
+        <div className="cross-sell-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
           {products.map((p) => (
             <Link key={p.slug} href={`/produits/${p.slug}`} style={{ textDecoration: "none" }}>
               <div
@@ -261,10 +261,11 @@ function CatalogProductPage({ slug }: { slug: string }) {
       {/* Fiche produit principale */}
       <section
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, minHeight: "70vh" }}
-        className="grid-cols-1 md:grid-cols-2"
+        className="product-grid"
       >
         {/* Colonne gauche : visuel */}
         <div
+          className="product-image-col"
           style={{
             background: "white",
             minHeight: 480,
@@ -420,6 +421,7 @@ function CatalogProductPage({ slug }: { slug: string }) {
 
           {/* Specs rapides */}
           <div
+            className="specs-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
@@ -484,6 +486,7 @@ function CatalogProductPage({ slug }: { slug: string }) {
 
       {/* Pros / Cons */}
       <section
+        className="pros-cons-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -638,7 +641,7 @@ function OldProductPage({ slug }: { slug: string }) {
       {/* Fiche produit principale */}
       <section
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, minHeight: "70vh" }}
-        className="grid-cols-1 md:grid-cols-2"
+        className="product-grid"
       >
         <div
           style={{
@@ -779,6 +782,7 @@ function OldProductPage({ slug }: { slug: string }) {
       </section>
 
       <section
+        className="pros-cons-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",

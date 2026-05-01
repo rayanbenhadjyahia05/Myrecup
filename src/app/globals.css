@@ -24,3 +24,69 @@ body {
   color: var(--black);
   overflow-x: hidden;
 }
+
+/* ── RESPONSIVE MOBILE ── */
+@media (max-width: 768px) {
+
+  /* Nav */
+  nav {
+    padding: 0.9rem 1.25rem !important;
+  }
+
+  /* Fiche produit — grille principale */
+  .product-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .product-image-col {
+    min-height: 300px !important;
+  }
+
+  /* Fiche produit — specs, pros/cons */
+  .specs-grid,
+  .pros-cons-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Cross-sell */
+  .cross-sell-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Listing produits */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  /* Sections — padding réduit */
+  section {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    padding: 0.6rem 1.25rem !important;
+  }
+
+  /* Badges confiance — 3 colonnes gardées mais plus compact */
+  .trust-badges {
+    gap: 0.25rem !important;
+  }
+
+  /* Icônes paiement — wrap */
+  .payment-icons {
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
+  }
+
+  /* Comparatif — tableau */
+  .comparatif-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Homepage hero */
+  .hero-section {
+    padding: 3rem 1.25rem !important;
+  }
+}

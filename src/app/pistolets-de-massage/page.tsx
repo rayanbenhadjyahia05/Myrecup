@@ -154,6 +154,7 @@ export default function ProduitsPage() {
 
               {/* Grille */}
               <div
+                className="products-grid"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
