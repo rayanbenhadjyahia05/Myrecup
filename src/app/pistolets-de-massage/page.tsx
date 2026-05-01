@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CATALOG, CATEGORIES, formatPrice } from "@/lib/catalog";
 import CartIcon from "@/components/CartIcon";
 
@@ -187,21 +188,21 @@ export default function ProduitsPage() {
                       </div>
                     )}
 
-                    {/* Image placeholder */}
-                    <div
-                      style={{
-                        background: CREAM,
-                        height: 180,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "4rem",
-                      }}
-                    >
-                      {cat.slug === "pistolets-de-massage" ? "💆" :
-                       cat.slug === "rouleaux-et-balles" ? "🔵" :
-                       cat.slug === "thermotherapie" ? "🧊" :
-                       cat.slug === "compression" ? "🥾" : "🤸"}
+                    {/* Image produit */}
+                    <div style={{ background: "white", height: 180, position: "relative", overflow: "hidden" }}>
+                      {product.image ? (
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          sizes="300px"
+                          style={{ objectFit: "contain", padding: "1rem" }}
+                        />
+                      ) : (
+                        <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "4rem", background: CREAM }}>
+                          💆
+                        </div>
+                      )}
                     </div>
 
                     {/* Infos */}

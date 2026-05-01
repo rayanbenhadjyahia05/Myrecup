@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CATALOG, CATEGORIES, formatPrice } from "@/lib/catalog";
 import CartIcon from "@/components/CartIcon";
 import NewsletterBanner from "@/components/NewsletterBanner";
@@ -261,12 +262,19 @@ export default function ComparatifPage() {
                         </div>
                       )}
 
-                      {/* Placeholder image */}
-                      <div style={{ background: CREAM, height: 160, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3.5rem" }}>
-                        {product.categorySlug === "pistolets-de-massage" ? "💆" :
-                         product.categorySlug === "rouleaux-et-balles" ? "🔵" :
-                         product.categorySlug === "thermotherapie" ? "🧊" :
-                         product.categorySlug === "compression" ? "🥾" : "🤸"}
+                      {/* Image produit */}
+                      <div style={{ background: "white", height: 160, position: "relative", overflow: "hidden" }}>
+                        {product.image ? (
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            sizes="280px"
+                            style={{ objectFit: "contain", padding: "1rem" }}
+                          />
+                        ) : (
+                          <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3.5rem", background: CREAM }}>💆</div>
+                        )}
                       </div>
 
                       {/* Contenu */}

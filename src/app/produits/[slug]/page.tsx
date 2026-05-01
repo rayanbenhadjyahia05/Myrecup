@@ -267,10 +267,13 @@ function CatalogProductPage({ slug }: { slug: string }) {
         {/* Colonne gauche : visuel */}
         <div
           style={{
-            background: CREAM,
+            background: "white",
             minHeight: 480,
             position: "relative",
             overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           {product.badge && (
@@ -282,6 +285,7 @@ function CatalogProductPage({ slug }: { slug: string }) {
                 background: product.highlight ? ORANGE : BLACK,
                 color: "white",
                 padding: "0.3rem 0.8rem",
+                zIndex: 2,
                 ...label,
                 fontSize: "0.7rem",
               }}
@@ -297,7 +301,7 @@ function CatalogProductPage({ slug }: { slug: string }) {
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "contain", padding: "2rem" }}
               />
             </div>
           ) : (
@@ -305,7 +309,7 @@ function CatalogProductPage({ slug }: { slug: string }) {
               style={{
                 width: 260,
                 height: 260,
-                background: "white",
+                background: CREAM,
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",

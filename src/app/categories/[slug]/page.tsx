@@ -205,20 +205,20 @@ export default async function CategoryPage({
                     {product.badge}
                   </div>
                 )}
-                <div
-                  style={{
-                    width: 120,
-                    height: 120,
-                    borderRadius: "50%",
-                    background: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "3.5rem",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-                  }}
-                >
-                  {getCategoryEmoji(slug)}
+                <div style={{ width: "100%", height: 180, position: "relative", overflow: "hidden", background: "white" }}>
+                  {product.image ? (
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      sizes="300px"
+                      style={{ objectFit: "contain", padding: "1rem" }}
+                    />
+                  ) : (
+                    <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3.5rem", background: "#F2EDE4" }}>
+                      {getCategoryEmoji(slug)}
+                    </div>
+                  )}
                 </div>
               </div>
 
