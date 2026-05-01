@@ -94,12 +94,12 @@ function getRecommendation(answers: Answers) {
   if (budget === "petit") {
     if (douleur === "dos") {
       return {
-        slug: "acupressure-mat",
-        nom: "MyRecup Acupressure Mat",
-        prix: "44 €",
+        slug: "peanut-roller",
+        nom: "MyRecup Peanut Roller",
+        prix: "22 €",
         raison:
-          "Pour les tensions du dos à petit budget, le tapis d'acupression est la solution passive la plus efficace. 20 minutes le soir et les lombaires se détendent.",
-        emoji: "🧘",
+          "Pour les tensions du dos à petit budget, la balle cacahuète est la solution idéale. Elle masse les paravertébraux sans toucher les vertèbres — efficace et accessible.",
+        emoji: "🔵",
       };
     }
     return {
@@ -107,30 +107,30 @@ function getRecommendation(answers: Answers) {
       nom: "MyRecup Hot Cold Pack",
       prix: "17 €",
       raison:
-        "Le Hot Cold Pack chaud/froid est l'indispensable à moins de 15 €. Froid sur les inflammations, chaud pour relâcher. Le point de départ de toute routine récupération.",
+        "Le Hot Cold Pack chaud/froid est l'indispensable à moins de 20 €. Froid sur les inflammations, chaud pour relâcher. Le point de départ de toute routine récupération.",
       emoji: "🧊",
     };
   }
 
   if (douleur === "dos") {
     return {
-      slug: "acupressure-mat",
-      nom: "MyRecup Acupressure Mat",
-      prix: "44 €",
+      slug: "peanut-roller",
+      nom: "MyRecup Peanut Roller",
+      prix: "22 €",
       raison:
-        "Vous souffrez principalement du dos. Le tapis d'acupression est conçu exactement pour ça : 20 minutes allongé libèrent les tensions du dos, des épaules et de la nuque.",
-      emoji: "🧘",
+        "Vous souffrez principalement du dos. La balle cacahuète est conçue exactement pour ça : sa forme double préserve la colonne vertébrale tout en massant profondément les lombaires et les trapèzes.",
+      emoji: "🔵",
     };
   }
 
   if (sport === "yoga") {
     return {
-      slug: "resistance-bands",
-      nom: "MyRecup Resistance Bands",
-      prix: "27 €",
+      slug: "foam-roller",
+      nom: "MyRecup Foam Roller",
+      prix: "33 €",
       raison:
-        "Pour la mobilité et le yoga, les bandes de résistance complètent parfaitement votre pratique — tissu non-glissant, 5 niveaux de résistance.",
-      emoji: "🤸",
+        "Pour la mobilité et le yoga, le foam roller complète parfaitement votre pratique — surface texturée haute densité pour libérer les fascias et améliorer la souplesse.",
+      emoji: "🟤",
     };
   }
 

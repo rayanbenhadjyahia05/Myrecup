@@ -88,11 +88,10 @@ function Stars({ rating }: { rating: number }) {
 /* ── CROSS-SELL ── */
 
 const CROSS_SELL_MAP: Record<string, string[]> = {
-  "pistolets-de-massage": ["foam-roller", "vibro-ball", "resistance-bands"],
-  "rouleaux-et-balles":   ["massage-gun-pro", "vibro-ball", "resistance-bands"],
-  "thermotherapie":       ["massage-gun-pro", "acupressure-mat", "hot-cold-pack"],
-  "compression":          ["massage-gun-pro", "acupressure-mat", "resistance-bands"],
-  "mobilite":             ["massage-gun-pro", "foam-roller", "vibro-ball"],
+  "pistolets-de-massage": ["foam-roller", "vibro-ball", "peanut-roller"],
+  "rouleaux-et-balles":   ["massage-gun-pro", "vibro-ball", "hot-cold-pack"],
+  "thermotherapie":       ["massage-gun-pro", "foam-roller", "hot-cold-pack"],
+  "compression":          ["massage-gun-pro", "foam-roller", "vibro-ball"],
 };
 
 function CrossSell({ currentSlug, categorySlug }: { currentSlug: string; categorySlug: string }) {
@@ -874,7 +873,7 @@ function getCategoryEmoji(slug: string): string {
     "rouleaux-et-balles": "🔵",
     "thermotherapie": "🧊",
     "compression": "🦵",
-    "mobilite": "🤸",
+    "mobilite": "⚡",
   };
   return map[slug] ?? "⚡";
 }

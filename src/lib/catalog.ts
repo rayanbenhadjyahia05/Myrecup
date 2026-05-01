@@ -63,14 +63,6 @@ export const CATEGORIES: ProductCategory[] = [
     imageAlt: "Sportive en récupération sur piste d'athlétisme",
     color: "#7C3AED",
   },
-  {
-    slug: "mobilite",
-    name: "Mobilité",
-    description: "Tapis d'acupression et bandes de résistance pour l'échauffement et la récupération passive.",
-    image: "/images/charlotte-karlsen-CNydde5SXYI-unsplash.jpg",
-    imageAlt: "Sportif utilisant une bande de résistance élastique à l'extérieur",
-    color: "#059669",
-  },
 ];
 
 /* ── PRODUITS ── */
@@ -438,77 +430,6 @@ export const CATALOG: CatalogProduct[] = [
       { key: "Durée séance", value: "20 à 60 min" },
       { key: "Tailles disponibles", value: "S / M / L / XL" },
       { key: "Alimentation", value: "Secteur 220V" },
-    ],
-    affiliateUrl: "",
-  },
-
-  /* ── Mobilité ── */
-  {
-    id: "acupressure-mat",
-    slug: "acupressure-mat",
-    name: "MyRecup Acupressure Mat",
-    serie: "Mat",
-    categorySlug: "mobilite",
-    image: "/images/products/acupressure-mat.png",
-    price: 44,
-    oldPrice: 59,
-    rating: 4.5,
-    reviews: 528,
-    badge: "Récupération passive",
-    tagline: "Le tapis d'acupression. 20 minutes allongé = muscles relâchés.",
-    description:
-      "Le Acupressure Mat est couvert de 6 210 picots en ABS qui stimulent les points de pression du dos, des épaules et de la nuque. En 20 minutes d'utilisation allongée, il déclenche une libération d'endorphines qui détend le système nerveux et réduit les tensions musculaires chroniques. Idéal avant de dormir.",
-    pros: [
-      "Aucun effort : récupération passive",
-      "Réduit les tensions du dos et de la nuque",
-      "Améliore le sommeil",
-      "Prix accessible",
-      "Inclut un coussin d'acupression",
-    ],
-    cons: [
-      "Inconfortable les 2 premières semaines",
-      "Pas adapté aux peaux très sensibles",
-    ],
-    specs: [
-      { key: "Type", value: "Tapis d'acupression" },
-      { key: "Picots", value: "6 210 points de pression" },
-      { key: "Matière", value: "Lin naturel + ABS" },
-      { key: "Dimensions", value: "65 × 42 cm" },
-      { key: "Inclus", value: "Tapis + coussin cervical" },
-      { key: "Usage recommandé", value: "20 min/jour" },
-    ],
-    affiliateUrl: "",
-  },
-  {
-    id: "resistance-bands",
-    slug: "resistance-bands",
-    name: "MyRecup Resistance Bands",
-    serie: "Bands",
-    categorySlug: "mobilite",
-    image: "/images/products/resistance-bands.png",
-    price: 27,
-    oldPrice: 33,
-    rating: 4.6,
-    reviews: 734,
-    badge: "Pack 5",
-    tagline: "5 résistances, tissu non-glissant. Pour l'échauffement et la rééducation.",
-    description:
-      "Le Resistance Bands est un set de 5 bandes de résistance en tissu haute qualité (coton/élastane) avec grip anti-glissement. Contrairement aux bandes en latex, elles ne roulent pas et ne pincent pas la peau. Résistances de 5 à 40 kg couvrant tous les niveaux : débutant, intermédiaire, avancé.",
-    pros: [
-      "Tissu non-glissant, ne roule pas",
-      "5 niveaux de résistance",
-      "Confortable sur la peau",
-      "Pochette de rangement incluse",
-    ],
-    cons: [
-      "Moins polyvalent que les bandes longues",
-    ],
-    specs: [
-      { key: "Quantité", value: "5 bandes" },
-      { key: "Résistances", value: "5 / 10 / 15 / 25 / 40 kg" },
-      { key: "Matière", value: "Coton / Élastane / Grip latex" },
-      { key: "Largeur", value: "8 cm" },
-      { key: "Inclus", value: "5 bandes + pochette" },
     ],
     affiliateUrl: "",
   },
