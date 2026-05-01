@@ -40,10 +40,10 @@ yarn-error.log*
 .claude/
 
 # fichiers temporaires et images brutes à la racine
-*.jpg
-*.jpeg
-*.png
-index.html
+/*.jpg
+/*.jpeg
+/*.png
+/index.html
 
 # typescript
 *.tsbuildinfo

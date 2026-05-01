@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PRODUCTS, getProductBySlug as getOldProduct, formatPrice as formatOldPrice } from "@/lib/products";
 import { CATALOG, CatalogProduct, getProductBySlug as getCatalogProduct, getCategoryBySlug, formatPrice } from "@/lib/catalog";
-import AddToCartButton from "@/components/AddToCartButton";
+import ProductActions from "@/components/ProductActions";
 import CartIcon from "@/components/CartIcon";
 
 const ORANGE = "#E84525";
@@ -268,12 +268,9 @@ function CatalogProductPage({ slug }: { slug: string }) {
         <div
           style={{
             background: CREAM,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "4rem 3rem",
             minHeight: 480,
             position: "relative",
+            overflow: "hidden",
           }}
         >
           {product.badge && (
@@ -293,14 +290,14 @@ function CatalogProductPage({ slug }: { slug: string }) {
             </div>
           )}
           {product.image ? (
-            <div style={{ position: "relative", width: "100%", height: "100%", minHeight: 380 }}>
+            <div style={{ position: "absolute", inset: 0 }}>
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "contain", padding: "2rem" }}
+                style={{ objectFit: "cover" }}
               />
             </div>
           ) : (
@@ -323,56 +320,153 @@ function CatalogProductPage({ slug }: { slug: string }) {
         </div>
 
         {/* Colonne droite : infos */}
-        <div style={{ padding: "3rem 2.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div style={{ padding: "3rem 2.5rem", display: "flex", flexDirection: "column", gap: "1.25rem", overflowY: "auto" }}>
+
+          {/* Catégorie + Titre */}
           <div>
-            <p style={{ ...label, color: BLUE, marginBottom: "0.5rem" }}>Série {product.serie}</p>
-            <h1 style={{ ...condensed, fontSize: "clamp(2rem,4vw,3.2rem)", color: BLACK, marginBottom: "0.75rem" }}>
+            <p style={{ ...label, color: BLUE, fontSize: "0.7rem", marginBottom: "0.4rem" }}>
+              {category?.name ?? `Série ${product.serie}`}
+            </p>
+            <h1 style={{ ...condensed, fontSize: "clamp(1.8rem,3.5vw,2.8rem)", color: BLACK, marginBottom: "0.75rem" }}>
               {product.name}
             </h1>
-            <Stars rating={product.rating} />
-            <p style={{ ...label, color: "#999", fontSize: "0.7rem", marginTop: "0.25rem" }}>
-              {product.reviews.toLocaleString("fr-FR")} avis vérifiés
-            </p>
+            <p style={{ color: "#444", lineHeight: 1.7, fontSize: "0.9rem", marginBottom: "0.75rem" }}>{product.tagline}</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <Stars rating={product.rating} />
+              <span style={{ ...label, color: "#999", fontSize: "0.68rem" }}>
+                {product.reviews.toLocaleString("fr-FR")} avis
+              </span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "baseline", gap: "0.75rem" }}>
-            <span style={{ ...condensed, fontSize: "2.5rem", color: ORANGE }}>
-              {formatPrice(product.price)}
-            </span>
+          {/* Prix */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
             {product.oldPrice && (
-              <span style={{ fontSize: "1rem", color: "#aaa", textDecoration: "line-through" }}>
+              <span style={{ fontSize: "1.1rem", color: "#aaa", textDecoration: "line-through" }}>
                 {formatPrice(product.oldPrice)}
               </span>
             )}
-            <span style={{ ...label, color: "#888" }}>TTC</span>
+            <span style={{ ...condensed, fontSize: "2.4rem", color: ORANGE }}>
+              {formatPrice(product.price)}
+            </span>
+            {product.oldPrice && (
+              <span
+                style={{
+                  ...label,
+                  background: ORANGE,
+                  color: "white",
+                  padding: "0.2rem 0.5rem",
+                  fontSize: "0.65rem",
+                  borderRadius: 2,
+                }}
+              >
+                −{Math.round((1 - product.price / product.oldPrice) * 100)}%
+              </span>
+            )}
+            <span style={{ ...label, color: "#888", fontSize: "0.65rem" }}>TTC</span>
           </div>
 
-          <p style={{ color: "#444", lineHeight: 1.7, fontSize: "0.95rem" }}>{product.tagline}</p>
+          {/* Bloc paiement */}
+          <div style={{ border: `1px solid #e0e0e0`, overflow: "hidden" }}>
+            {/* Bannière 3x */}
+            <div
+              style={{
+                background: BLACK,
+                color: "white",
+                padding: "0.6rem 1rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <span style={{ fontSize: "1rem" }}>💳</span>
+              <span style={{ ...label, fontSize: "0.7rem", letterSpacing: "0.06em" }}>
+                Paiement en 3x sans frais disponible
+              </span>
+            </div>
+            {/* Détail mensualité */}
+            <div style={{ padding: "0.75rem 1rem", background: "#fafafa", borderBottom: "1px solid #e0e0e0" }}>
+              <span style={{ fontSize: "0.85rem", color: "#555" }}>
+                3 × <strong style={{ color: BLACK }}>{formatPrice(Math.ceil(product.price / 3 * 100) / 100)}</strong>
+                {" "}<span style={{ color: "#888", fontSize: "0.8rem" }}>(sans frais)</span>
+              </span>
+            </div>
+            {/* Icônes moyens de paiement */}
+            <div style={{ padding: "0.75rem 1rem", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+              {/* Visa */}
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "white", minWidth: 48, height: 30 }}>
+                <span style={{ fontWeight: 900, fontSize: "0.75rem", color: "#1a1f71", letterSpacing: "-0.02em", fontFamily: "sans-serif" }}>VISA</span>
+              </span>
+              {/* Mastercard */}
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.4rem", background: "white", gap: "0px", minWidth: 48, height: 30 }}>
+                <span style={{ width: 16, height: 16, borderRadius: "50%", background: "#EB001B", display: "inline-block", marginRight: -6, position: "relative", zIndex: 1 }} />
+                <span style={{ width: 16, height: 16, borderRadius: "50%", background: "#F79E1B", display: "inline-block", position: "relative" }} />
+              </span>
+              {/* PayPal */}
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "white", minWidth: 54, height: 30 }}>
+                <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#003087", fontFamily: "sans-serif" }}>Pay</span>
+                <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#009cde", fontFamily: "sans-serif" }}>Pal</span>
+              </span>
+              {/* Apple Pay */}
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "black", minWidth: 62, height: 30, gap: "0.2rem" }}>
+                <span style={{ fontSize: "0.75rem", color: "white" }}></span>
+                <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "white", fontFamily: "sans-serif" }}>Pay</span>
+              </span>
+            </div>
+          </div>
 
-          {/* Specs rapides (les 4 premières) */}
+          {/* Specs rapides */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "0.5rem",
               background: CREAM,
-              padding: "1.25rem",
+              padding: "1rem",
             }}
           >
             {product.specs.slice(0, 4).map(({ key, value }) => (
               <div key={key}>
-                <span style={{ ...label, color: "#888", fontSize: "0.65rem", display: "block" }}>{key}</span>
-                <span style={{ fontWeight: 600, fontSize: "0.95rem", color: BLACK }}>{value}</span>
+                <span style={{ ...label, color: "#888", fontSize: "0.62rem", display: "block" }}>{key}</span>
+                <span style={{ fontWeight: 600, fontSize: "0.9rem", color: BLACK }}>{value}</span>
               </div>
             ))}
           </div>
 
-          {/* CTA */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <AddToCartButton product={product} />
-            <p style={{ ...label, color: "#aaa", fontSize: "0.65rem", textAlign: "center" }}>
-              Livraison 2–4 jours · Retour 30 jours garanti
-            </p>
+          {/* Quantité + Ajouter au panier */}
+          <ProductActions product={product} />
+
+          {/* Badges de confiance */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "0.5rem",
+              borderTop: "1px solid #e0e0e0",
+              paddingTop: "1rem",
+            }}
+          >
+            {[
+              { icon: "🔄", title: "30J", sub: "Pour changer d'avis" },
+              { icon: "🛡️", title: "Garantie", sub: "2 ans incluse" },
+              { icon: "🚚", title: "Livraison", sub: "Offerte dès 50 €" },
+            ].map(({ icon, title, sub }) => (
+              <div
+                key={title}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  gap: "0.2rem",
+                  padding: "0.5rem 0.25rem",
+                }}
+              >
+                <span style={{ fontSize: "1.3rem" }}>{icon}</span>
+                <span style={{ ...label, fontSize: "0.65rem", color: BLACK, fontWeight: 700 }}>{title}</span>
+                <span style={{ fontSize: "0.68rem", color: "#666", lineHeight: 1.3 }}>{sub}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -587,41 +681,88 @@ function OldProductPage({ slug }: { slug: string }) {
           </div>
         </div>
 
-        <div style={{ padding: "3rem 2.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div style={{ padding: "3rem 2.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+
+          {/* Marque + Titre */}
           <div>
-            <p style={{ ...label, color: BLUE, marginBottom: "0.5rem" }}>{product.brand}</p>
-            <h1 style={{ ...condensed, fontSize: "clamp(2rem,4vw,3.2rem)", color: BLACK, marginBottom: "0.75rem" }}>
+            <p style={{ ...label, color: BLUE, fontSize: "0.7rem", marginBottom: "0.4rem" }}>{product.brand}</p>
+            <h1 style={{ ...condensed, fontSize: "clamp(1.8rem,3.5vw,2.8rem)", color: BLACK, marginBottom: "0.75rem" }}>
               {product.name}
             </h1>
-            <Stars rating={product.rating} />
-            <p style={{ ...label, color: "#999", fontSize: "0.7rem", marginTop: "0.25rem" }}>
-              {product.reviews.toLocaleString("fr-FR")} avis vérifiés
-            </p>
+            <p style={{ color: "#444", lineHeight: 1.7, fontSize: "0.9rem", marginBottom: "0.75rem" }}>{product.tagline}</p>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <Stars rating={product.rating} />
+              <span style={{ ...label, color: "#999", fontSize: "0.68rem" }}>
+                {product.reviews.toLocaleString("fr-FR")} avis
+              </span>
+            </div>
           </div>
 
-          <div>
-            <span style={{ ...condensed, fontSize: "2.5rem", color: ORANGE }}>
+          {/* Prix */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <span style={{ ...condensed, fontSize: "2.4rem", color: ORANGE }}>
               {formatOldPrice(product.price)}
             </span>
-            <span style={{ ...label, color: "#888", marginLeft: "0.5rem" }}>TTC</span>
+            <span style={{ ...label, color: "#888", fontSize: "0.65rem" }}>TTC</span>
           </div>
 
-          <p style={{ color: "#444", lineHeight: 1.7, fontSize: "0.95rem" }}>{product.tagline}</p>
+          {/* Bloc paiement */}
+          <div style={{ border: "1px solid #e0e0e0", overflow: "hidden" }}>
+            <div style={{ background: BLACK, color: "white", padding: "0.6rem 1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span style={{ fontSize: "1rem" }}>💳</span>
+              <span style={{ ...label, fontSize: "0.7rem", letterSpacing: "0.06em" }}>Paiement en 3x sans frais disponible</span>
+            </div>
+            <div style={{ padding: "0.75rem 1rem", background: "#fafafa", borderBottom: "1px solid #e0e0e0" }}>
+              <span style={{ fontSize: "0.85rem", color: "#555" }}>
+                3 × <strong style={{ color: BLACK }}>{formatOldPrice(Math.ceil(product.price / 3 * 100) / 100)}</strong>
+                {" "}<span style={{ color: "#888", fontSize: "0.8rem" }}>(sans frais)</span>
+              </span>
+            </div>
+            <div style={{ padding: "0.75rem 1rem", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "white", minWidth: 48, height: 30 }}>
+                <span style={{ fontWeight: 900, fontSize: "0.75rem", color: "#1a1f71", letterSpacing: "-0.02em", fontFamily: "sans-serif" }}>VISA</span>
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.4rem", background: "white", minWidth: 48, height: 30 }}>
+                <span style={{ width: 16, height: 16, borderRadius: "50%", background: "#EB001B", display: "inline-block", marginRight: -6, position: "relative", zIndex: 1 }} />
+                <span style={{ width: 16, height: 16, borderRadius: "50%", background: "#F79E1B", display: "inline-block", position: "relative" }} />
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "white", minWidth: 54, height: 30 }}>
+                <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#003087", fontFamily: "sans-serif" }}>Pay</span>
+                <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#009cde", fontFamily: "sans-serif" }}>Pal</span>
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", border: "1px solid #ddd", borderRadius: 4, padding: "0.2rem 0.5rem", background: "black", minWidth: 62, height: 30, gap: "0.2rem" }}>
+                <span style={{ fontSize: "0.75rem", color: "white" }}></span>
+                <span style={{ fontSize: "0.65rem", fontWeight: 600, color: "white", fontFamily: "sans-serif" }}>Pay</span>
+              </span>
+            </div>
+          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", background: CREAM, padding: "1.25rem" }}>
+          {/* Specs rapides */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", background: CREAM, padding: "1rem" }}>
             {specs.slice(0, 4).map(({ key, value }) => (
               <div key={key}>
-                <span style={{ ...label, color: "#888", fontSize: "0.65rem", display: "block" }}>{key}</span>
-                <span style={{ fontWeight: 600, fontSize: "0.95rem", color: BLACK }}>{value}</span>
+                <span style={{ ...label, color: "#888", fontSize: "0.62rem", display: "block" }}>{key}</span>
+                <span style={{ fontWeight: 600, fontSize: "0.9rem", color: BLACK }}>{value}</span>
               </div>
             ))}
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <AddToCartButton product={product} />
-            <p style={{ ...label, color: "#aaa", fontSize: "0.65rem", textAlign: "center" }}>
-              Livraison 2–4 jours · Retour 30 jours garanti
-            </p>
+          {/* Quantité + Ajouter au panier */}
+          <ProductActions product={product} />
+
+          {/* Badges de confiance */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.5rem", borderTop: "1px solid #e0e0e0", paddingTop: "1rem" }}>
+            {[
+              { icon: "🔄", title: "30J", sub: "Pour changer d'avis" },
+              { icon: "🛡️", title: "Garantie", sub: "2 ans incluse" },
+              { icon: "🚚", title: "Livraison", sub: "Offerte dès 50 €" },
+            ].map(({ icon, title, sub }) => (
+              <div key={title} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "0.2rem", padding: "0.5rem 0.25rem" }}>
+                <span style={{ fontSize: "1.3rem" }}>{icon}</span>
+                <span style={{ ...label, fontSize: "0.65rem", color: BLACK, fontWeight: 700 }}>{title}</span>
+                <span style={{ fontSize: "0.68rem", color: "#666", lineHeight: 1.3 }}>{sub}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

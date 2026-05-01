@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, Barlow } from "next/font/google";
 import { CartProvider } from "@/context/CartContext";
 import CookieBanner from "@/components/CookieBanner";
+import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 
 const barlow = Barlow({
@@ -31,6 +32,7 @@ export default function RootLayout({
     <html lang="fr" className={`${barlow.variable} ${barlowCondensed.variable}`}>
       <body className="antialiased overflow-x-hidden" style={{ fontFamily: "var(--font-barlow), sans-serif" }}>
         <CartProvider>
+          <LoadingScreen />
           {children}
           <CookieBanner />
         </CartProvider>
