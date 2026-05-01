@@ -36,6 +36,15 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude code (mémoire locale, ne pas committer)
+.claude/
+
+# fichiers temporaires et images brutes à la racine
+*.jpg
+*.jpeg
+*.png
+index.html
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
